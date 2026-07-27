@@ -11,8 +11,10 @@ pipeline {
         sh '''
         ansible master -m shell -a "kubectl --kubeconfig=/etc/kubernetes/admin.conf get no"
         docker build -t saheul/ktcloudinfra:0727 .
-        ansible master -m copy -a "src=~/deploy.yml  dest=/root/deploy.yml"
-        ansible master -m shell -a "kubectl --kubeconfig=/etc/kubernetes/admin.conf apply -f deploy.yml"
+        echo "############ Build finish"
+        ansible master -m copy -a "src=/var/lib/jenkins/deploy.yml  dest=/root/deploy.yml"
+        echo "############ Copy finish"
+        ansible master -m shell -a "kubectl --kubeconfig=/etc/kubernetes/admin.conf apply -f deploy.yml"        
         '''
       }
     }
